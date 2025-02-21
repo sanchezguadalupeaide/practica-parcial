@@ -1,12 +1,18 @@
 import { useRef } from "react"
 
-export const Busqueda = ({ setResultado }) => {
+export const Busqueda = ({ setResultado, setError }) => {
 
     const inputRef = useRef()
 
     const traerPais = async (pais) => {
         let reponse = await fetch("https://restcountries.com/v3.1/name/" + pais)
         let data = await reponse.json()
+
+        if (data.status == 404) {
+            setError(true)
+            return
+        } setError(false)
+        console.log(data)
         setResultado(data)
     }
 
@@ -16,6 +22,10 @@ export const Busqueda = ({ setResultado }) => {
         <input ref={inputRef}
             type="text"
             placeholder="Ingrese un país"
-            onChange={() => { traerPais(inputRef.current.value) }} />
+            onChange={() => {
+                if (inputRef.current.value !== "") {
+                    traerPais(inputRef.current.value)
+                }
+            }} />
     </>
 }

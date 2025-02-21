@@ -1,6 +1,12 @@
-export const MostrarResultado = ({ resultado }) => {
+export const MostrarResultado = ({ resultado, error }) => {
+    if (error) {
+        return <>
+            <h1>No se encontraron resultados</h1>
+        </>
+    }
     return <div>
         {resultado.map((element, index) => {
+
             return <div key={index}>
                 <h4>{element.name.common}</h4>
                 <h4>{element.population}</h4>
